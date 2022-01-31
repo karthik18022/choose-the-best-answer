@@ -28,8 +28,8 @@ public class ScoreRepository {
 		jdbcTemplate.update(sql,userId,score);
 	}
 	
-	public List<Map<String, Object>> getUserAnswer(String query){
-		return jdbcTemplate.queryForList(query);
+	public List<Map<String, Object>> getUserAnswer(int userId){
+		return jdbcTemplate.queryForList("select ua.question_id ,q.question,ua.user_answer,q.answer from user_ansewer ua left  join question q on ua.question_id =q.question_id where ua.user_id ="+userId);
 	}
 	
 	public List<Map<String, Object>> getUserByEmail(String query,String email){
