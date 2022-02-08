@@ -7,6 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +18,7 @@ import lombok.Setter;
 @Table(name="users")
 @Getter
 @Setter
-public class User {
+public class User  {
 	
 	@Id
 	@Column(name="user_id")
@@ -23,5 +27,12 @@ public class User {
 	
 	@Column(name="email",unique=true)
 	private String email;
+	
+	@Column(name="user_name")
+	private String userName;
+	
+	@Column(name="password")
+	@JsonIgnore
+	private String password;
 
 }

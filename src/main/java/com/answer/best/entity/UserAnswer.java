@@ -31,7 +31,7 @@ public class UserAnswer {
 	@JoinColumn(name="question_id",referencedColumnName="question_id")
 	private Questions question;
 	
+	@Column(name="answer",nullable=false)
 	private String answer;
-	
 
 }

@@ -10,5 +10,7 @@ import lombok.Setter;
 public class RequestVO {
 
 	public String email;
+	private String username;
+	public String password;
 	public List<QuestionRequest> request;
 }

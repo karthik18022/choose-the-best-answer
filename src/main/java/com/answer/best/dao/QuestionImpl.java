@@ -2,11 +2,14 @@ package com.answer.best.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.answer.best.entity.Questions;
+import com.answer.best.exception.ValidatationExcption;
+import com.answer.best.message.MessageStore;
 import com.answer.best.repository.QuestionRepo;
 import com.answer.best.response.QuestionResponse;
 
@@ -18,6 +21,7 @@ public class QuestionImpl {
 
 	public Questions addQuestion(Questions questions) {
 		Questions questionObj = new Questions();
+		if(questions != null) {
 		questionObj.setQuestion(questions.getQuestion());
 		questionObj.setOptionA(questions.getOptionA());
 		questionObj.setOptionB(questions.getOptionB());
@@ -25,7 +29,8 @@ public class QuestionImpl {
 		questionObj.setOptionD(questions.getOptionD());
 		questionObj.setAnswer(questions.getAnswer());
 		questionRepo.save(questionObj);
-		return questionObj;
+	}
+		return questionObj;	
 	}
 
 	public List<QuestionResponse> getQuestions() {
