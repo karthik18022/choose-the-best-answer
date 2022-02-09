@@ -35,13 +35,13 @@ public class QuestionController extends BaseClass {
 		return super.success(responseDao, this.questionImpl.addQuestion(questions), MessageStore.POST_QUESTION);
 	}
 	
-	@RequestMapping(value="/qestionsV1",method=RequestMethod.GET)
+	@RequestMapping(value="/questions",method=RequestMethod.GET)
 	public ResponseVo getAllQuestions() {
 		final ResponseVo responseDao = new ResponseVo();
 		return super.success(responseDao, this.questionImpl.getQuestions(), MessageStore.ALL_QUESTIONS);
 	}
 	
-	@RequestMapping(value="/save",method=RequestMethod.POST)
+	@RequestMapping(value="/save/userAnswer",method=RequestMethod.POST)
 	public ResponseVo postAnswer( @RequestBody RequestVO request) {
 		final ResponseVo responseDao = new ResponseVo();
 		return super.success(responseDao, this.answerImpl.postAnswer(request), MessageStore.POST_ANSWER);
@@ -51,26 +51,6 @@ public class QuestionController extends BaseClass {
 	public ResponseVo getAnswers(Principal principal) {
 		final ResponseVo responseDao = new ResponseVo();
 		return super.success(responseDao, this.answerImpl.getAllAnswer(principal.getName()), MessageStore.USER_ANSWER);
-	}
-	
-	@RequestMapping(value="/test",method=RequestMethod.POST)
-	public ResponseVo postTest(@RequestBody Test test) {
-		final ResponseVo responseDao = new ResponseVo();
-		return super.success(responseDao, this.answerImpl.postTest(test), MessageStore.USER_ANSWER);
-	}
-	
-	@RequestMapping(value="/mapping",method=RequestMethod.GET)
-	public List<Object> getTest(Authentication auth){
-		List<Object> list=new ArrayList<>();
-		Object name= auth.getDetails();
-		list.add(name);
-		Object test=auth.getPrincipal();
-		list.add(test);
-		Object sub=auth.getCredentials();
-		Object authorities=auth.getAuthorities();
-		list.add(sub);
-		list.add(authorities);
-		return list;
 	}
 	
 }

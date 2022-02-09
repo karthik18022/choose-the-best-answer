@@ -20,44 +20,43 @@ import com.answer.best.dao.UserService;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-//	@Autowired
-//	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	JwtRequestFilter jwtRequestFilter;
+
+//	@Autowired
+//	AccessDenied unauthorizedHandler;
 	
 	@Autowired
-	JwtAuthenticationEntryPoint unauthorizedHandler;
+	ExpiredException expiredException;
 	
-	   @Override
-	 protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-	        super.configure(auth);
-	        auth.userDetailsService(userService);
-	    }
-	   @Override
-	 public void configure(HttpSecurity security) throws Exception {
-	        security.csrf().disable()
-	                .authorizeRequests()
-	                .antMatchers( "/save","/add/question","/authenticate","qestionsV1").permitAll()
-	                .anyRequest().authenticated().and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
-	               .and().sessionManagement()
-					.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-					;
-	        security.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-	    }
-	   
-	 @Bean
-	    public PasswordEncoder passwordEncoder(){
-	        return new BCryptPasswordEncoder();
-	    }
-	 
-	 @Bean
-	   @Override
-	    protected AuthenticationManager authenticationManager() throws Exception {
-	        return super.authenticationManager();
-	    }
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		super.configure(auth);
+		auth.userDetailsService(userService);
+	}
+
+	@Override
+	public void configure(HttpSecurity security) throws Exception {
+		security.csrf().disable().authorizeRequests()
+				.antMatchers("/save/userAnswer", "/add/question", "/authenticate", "/questions").permitAll().anyRequest()
+				.authenticated().and().exceptionHandling().authenticationEntryPoint(expiredException).and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		security.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+	}
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	@Override
+	protected AuthenticationManager authenticationManager() throws Exception {
+		return super.authenticationManager();
+	}
 
 }

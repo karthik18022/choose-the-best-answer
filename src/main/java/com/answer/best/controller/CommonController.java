@@ -22,7 +22,7 @@ public class CommonController extends BaseClass {
 	@Autowired
 	ScoreDaoImpl scoreDaoImpl;
 
-	@RequestMapping(value = "/questions", method = RequestMethod.GET)
+	@RequestMapping(value = "/question", method = RequestMethod.GET)
 	public ResponseVo getQuestion() {
 		final ResponseVo responseDao = new ResponseVo();
 		return super.success(responseDao, this.scoreDaoImpl.getAllQuestions(), MessageStore.ALL_QUESTIONS);
