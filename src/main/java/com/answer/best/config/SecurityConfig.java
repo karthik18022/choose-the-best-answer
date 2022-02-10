@@ -1,6 +1,7 @@
 package com.answer.best.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,24 +16,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.answer.best.dao.UserService;
+import com.answer.best.exception.ExpiredException;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+	@Value("${endpoints}")
+	private String urls;
 	@Autowired
 	UserService userService;
 
 	@Autowired
 	JwtRequestFilter jwtRequestFilter;
 
-//	@Autowired
-//	AccessDenied unauthorizedHandler;
-	
 	@Autowired
 	ExpiredException expiredException;
-	
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		super.configure(auth);
@@ -42,8 +42,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity security) throws Exception {
 		security.csrf().disable().authorizeRequests()
-				.antMatchers("/save/userAnswer", "/add/question", "/authenticate", "/questions").permitAll().anyRequest()
-				.authenticated().and().exceptionHandling().authenticationEntryPoint(expiredException).and()
+			    .antMatchers(urls).permitAll()
+				.anyRequest().authenticated().and().exceptionHandling().authenticationEntryPoint(expiredException).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		security.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}

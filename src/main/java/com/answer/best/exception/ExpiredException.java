@@ -1,4 +1,4 @@
-package com.answer.best.config;
+package com.answer.best.exception;
 
 import java.io.IOException;
 
@@ -24,21 +24,21 @@ public class ExpiredException implements AuthenticationEntryPoint {
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
-		ObjectMapper mapper = new ObjectMapper();
+		final ObjectMapper mapper = new ObjectMapper();
 		final String token = (String) request.getAttribute("expired");
 		System.out.println(token);
 		if (token != null) {
-			ResponseVo res=new ResponseVo();
+			ResponseVo res = new ResponseVo();
 			res.setCode(HttpServletResponse.SC_UNAUTHORIZED);
-			res.setMessage("error : " +  "token expired.access denied");
+			res.setMessage("error : " + "token expired.access denied");
 			res.setStatus("error");
 			response.setContentType("application/json");
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			response.getOutputStream().println(mapper.writeValueAsString(res));
 		} else {
-			ResponseVo res=new ResponseVo();
+			ResponseVo res = new ResponseVo();
 			res.setCode(HttpServletResponse.SC_UNAUTHORIZED);
-			res.setMessage("error : " +  "token expired.access denied");
+			res.setMessage("error : " + "access denied");
 			res.setStatus("error");
 			response.setContentType("application/json");
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

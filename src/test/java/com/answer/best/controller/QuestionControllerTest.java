@@ -1,13 +1,15 @@
 package com.answer.best.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.tomcat.util.json.JSONParser;
+import org.aspectj.weaver.patterns.TypePatternQuestions.Question;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +19,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -85,21 +86,17 @@ public class QuestionControllerTest {
 		question.setOptionC("test-3");
 		question.setOptionD("test-4");
 		question.setAnswer("answer");
-//		questionController.addQuestion(question);
-//		Mockito.verify(questionImpl,Mockito.times(1)).addQuestion(question);
-//		Assert.assertNotNull(question);
 		 com.google.gson.Gson gson=new com.google.gson.Gson();
 		 String json=gson.toJson(question);
-
 	    MvcResult result = mvc.perform(
 	            post(url)
 	            .contentType(MediaType.APPLICATION_JSON)
 	            .content(json))
 	            .andExpect(status().isOk())
 	            .andReturn();
-	    
 	    Assert.assertNotNull(result);
-//	    Mockito.verify(questionImpl,Mockito.times(1)).addQuestion(question);
+//	    Mockito.verify(questionImpl,Mockito.times(1)).addQuestion();
+	   assertThat(question);
 	}
 	
 	@Test

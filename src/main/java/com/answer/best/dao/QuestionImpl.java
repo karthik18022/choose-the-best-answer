@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.answer.best.entity.Questions;
 import com.answer.best.exception.ValidatationExcption;
-import com.answer.best.message.MessageStore;
 import com.answer.best.repository.QuestionRepo;
 import com.answer.best.response.QuestionResponse;
+import com.answer.best.store.MessageStore;
 
 @Service
 public class QuestionImpl {
@@ -21,31 +21,31 @@ public class QuestionImpl {
 
 	public Questions addQuestion(Questions questions) {
 		Questions questionObj = new Questions();
-		if(questions != null) {
-		questionObj.setQuestion(questions.getQuestion());
-		questionObj.setOptionA(questions.getOptionA());
-		questionObj.setOptionB(questions.getOptionB());
-		questionObj.setOptionC(questions.getOptionC());
-		questionObj.setOptionD(questions.getOptionD());
-		questionObj.setAnswer(questions.getAnswer());
-		questionRepo.save(questionObj);
-	}
-		return questionObj;	
+		if (questions != null) {
+			questionObj.setQuestion(questions.getQuestion());
+			questionObj.setOptionA(questions.getOptionA());
+			questionObj.setOptionB(questions.getOptionB());
+			questionObj.setOptionC(questions.getOptionC());
+			questionObj.setOptionD(questions.getOptionD());
+			questionObj.setAnswer(questions.getAnswer());
+			questionRepo.save(questionObj);
+		}
+		return questionObj;
 	}
 
 	public List<QuestionResponse> getQuestions() {
 		List<Questions> questionList = questionRepo.getAllQuestions();
 		List<QuestionResponse> finalList = new ArrayList<>();
 		if (questionList != null) {
-			for (int i = 0; i < questionList.size(); i++) {
-				QuestionResponse response = new QuestionResponse();
-				response.setQuestionId(questionList.get(i).getQuestionId());
-				response.setQuestion(questionList.get(i).getQuestion());
-				response.setOptionA(questionList.get(i).getOptionA());
-				response.setOptionB(questionList.get(i).getOptionB());
-				response.setOptionC(questionList.get(i).getOptionC());
-				response.setOptionD(questionList.get(i).getOptionD());
-				finalList.add(response);
+			for (Questions response : questionList) {
+				QuestionResponse questionResponse = new QuestionResponse();
+				questionResponse.setQuestionId(response.getQuestionId());
+				questionResponse.setQuestion(response.getQuestion());
+				questionResponse.setOptionA(response.getOptionA());
+				questionResponse.setOptionB(response.getOptionB());
+				questionResponse.setOptionC(response.getOptionC());
+				questionResponse.setOptionD(response.getOptionD());
+				finalList.add(questionResponse);
 			}
 		}
 		return finalList;

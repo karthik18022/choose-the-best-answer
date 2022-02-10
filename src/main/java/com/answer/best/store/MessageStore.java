@@ -1,4 +1,4 @@
-package com.answer.best.message;
+package com.answer.best.store;
 
 public class MessageStore {
 

@@ -1,7 +1,8 @@
 package com.answer.best.response;
 
 import javax.servlet.http.HttpServletResponse;
-import com.answer.best.message.MessageStore;
+
+import com.answer.best.store.MessageStore;
 
 public class BaseClass {
 	
